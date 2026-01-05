@@ -178,4 +178,34 @@ This will open a web interface at `http://localhost:5555`.
 
 ---
 
+## 🧪 Testing
+
+This project includes a comprehensive test suite using Jest.
+
+### Unit Tests
+
+Run unit tests for individual components:
+
+```bash
+npm run test
+```
+
+### End-to-End (E2E) Tests
+
+Run integration tests to verify the entire flow:
+
+```bash
+npm run test:e2e
+```
+
+### Test Coverage
+
+Generate a code coverage report:
+
+```bash
+npm run test:cov
+```
+
+---
+
 **Happy Coding! 🚀**
