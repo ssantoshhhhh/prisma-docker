@@ -33,6 +33,7 @@ model User {
 model Task {
   id        Int      @id @default(autoincrement())
   title     String
+  description String?
   completed Boolean  @default(false)
 
   userId    Int

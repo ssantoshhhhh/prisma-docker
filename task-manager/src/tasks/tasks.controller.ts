@@ -1,4 +1,6 @@
-import { Controller, Get, Post, Body, Req, UseGuards, Query } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Req, UseGuards, Query, Param } from '@nestjs/common';
+import { UpdateTaskDto } from './dto/update-task.dto';
+import { CreateTaskDto } from './dto/create-task.dto';
 import { QueryTasksDto } from './dto/query-tasks.dto';
 import { TasksService } from './tasks.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -9,8 +11,8 @@ export class TasksController {
   constructor(private tasks: TasksService) {}
 
   @Post()
-  create(@Body('title') title: string, @Req() req: any) {
-    return this.tasks.create(title, req.user.userId);
+  create(@Body() dto: CreateTaskDto, @Req() req: any) {
+    return this.tasks.create(req.user.userId, dto);
   }
 
   @Get()
@@ -22,4 +24,17 @@ findAll(@Req() req, @Query() query: QueryTasksDto) {
   );
 }
 
+  @Patch(':id')
+  update(
+    @Req() req,
+    @Param('id') id: string,
+    @Body() dto: UpdateTaskDto,
+  ) {
+    return this.tasks.update(+id, req.user.userId, dto);
+  }
+
+  @Delete(':id')
+  remove(@Req() req, @Param('id') id: string) {
+    return this.tasks.remove(+id, req.user.userId);
+  }
 }

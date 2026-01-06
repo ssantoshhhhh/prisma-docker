@@ -1,14 +1,18 @@
 import { Injectable, ForbiddenException } from '@nestjs/common';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { CreateTaskDto } from './dto/create-task.dto';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class TasksService {
   constructor(private prisma: PrismaService) {}
 
-  create(title: string, userId: number) {
+  create(userId: number, dto: CreateTaskDto) {
     return this.prisma.task.create({
-      data: { title, userId },
+      data: {
+        ...dto,
+        userId,
+      },
     });
   }
 

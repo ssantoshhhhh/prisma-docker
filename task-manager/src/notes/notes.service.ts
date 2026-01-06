@@ -25,32 +25,32 @@ export class NotesService {
     });
   }
 
-  async update(noteId: number, userId: number, dto: UpdateNoteDto) {
+  async update(id: number, userId: number, dto: UpdateNoteDto) {
     const note = await this.prisma.note.findUnique({
-      where: { id: noteId },
+      where: { id },
     });
 
     if (!note || note.userId !== userId) {
-      throw new ForbiddenException();
+      throw new ForbiddenException('Access to note denied');
     }
 
     return this.prisma.note.update({
-      where: { id: noteId },
+      where: { id },
       data: dto,
     });
   }
 
-  async remove(noteId: number, userId: number) {
+  async remove(id: number, userId: number) {
     const note = await this.prisma.note.findUnique({
-      where: { id: noteId },
+      where: { id },
     });
 
     if (!note || note.userId !== userId) {
-      throw new ForbiddenException();
+      throw new ForbiddenException('Access to note denied');
     }
 
     return this.prisma.note.delete({
-      where: { id: noteId },
+      where: { id },
     });
   }
 }
