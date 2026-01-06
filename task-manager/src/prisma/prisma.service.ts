@@ -34,4 +34,8 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
   get task() {
     return this.client.task;
   }
+
+  get note() {
+    return this.client.note;
+  }
 }

@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ForbiddenException } from '@nestjs/common';
+import { UpdateTaskDto } from './dto/update-task.dto';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -20,4 +21,32 @@ export class TasksService {
   });
 }
 
+  async update(id: number, userId: number, dto: UpdateTaskDto) {
+    const task = await this.prisma.task.findUnique({
+      where: { id },
+    });
+
+    if (!task || task.userId !== userId) {
+      throw new ForbiddenException('Access to task denied');
+    }
+
+    return this.prisma.task.update({
+      where: { id },
+      data: dto,
+    });
+  }
+
+  async remove(id: number, userId: number) {
+    const task = await this.prisma.task.findUnique({
+      where: { id },
+    });
+
+    if (!task || task.userId !== userId) {
+      throw new ForbiddenException('Access to task denied');
+    }
+
+    return this.prisma.task.delete({
+      where: { id },
+    });
+  }
 }
